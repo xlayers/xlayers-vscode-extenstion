@@ -1,7 +1,7 @@
-import { AngularCodeGenService } from "../generators/angular.service";
 import { FRAMEWORKS, Frameworks } from "../constants";
-import { VueCodeGenService } from "../generators/vue.service";
+import { AngularCodeGenService } from "../generators/angular.service";
 import { ReactCodeGenService } from "../generators/react.service";
+import { VueCodeGenService } from "../generators/vue.service";
 
 export class FrameworkFacade {
     private static _instance: FrameworkFacade;
@@ -21,15 +21,14 @@ export class FrameworkFacade {
         }
         return FrameworkFacade._instance;
     }
-    getFrameworks(prefferd:Frameworks) {
-        if(prefferd){
-            const frameworks = [...FRAMEWORKS];
-            const swap = frameworks.indexOf(prefferd);
-            frameworks.splice(swap,1,`${prefferd} (recommended)`);
-            return  frameworks.sort(e=> e.indexOf('(recommended)')).reverse();
-            
-        }
-        return FRAMEWORKS;
+    getFrameworks(prefferd: Frameworks[] = []) {
+        const frameworks = [...FRAMEWORKS];
+        return prefferd.reduce((frameworks, item) => {
+            if (frameworks.includes(item)) {
+                frameworks.splice(frameworks.indexOf(item), 1, `${item} (recommended)`);
+            }
+            return frameworks;
+        }, frameworks).sort(e => e.indexOf('(recommended)')).reverse();
     }
     generate(type: Frameworks, ast: any) {
         switch (type) {

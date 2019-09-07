@@ -6,30 +6,6 @@ import { FileService, FrameworkFacade, MessageTypes, VSCodeService } from './uti
 import { Commands } from './webviews/Commands';
 import { WebContext } from './webviews/webContext';
 
-interface PackageJson {
-	dependencies: [];
-	devdependencies: [];
-}
-
-const defaultFrameworkSelection = () => {
-	const fileUtils = FileService.getInstance();
-	const workspacePath = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0];
-	const packagePath = `${workspacePath!.uri.fsPath}/package.json`;
-	const packageExist = fileUtils.fileExists(packagePath);
-	if (packageExist) {
-		const bufferdPackage = fileUtils.readFile(packagePath);
-		const packageStrinbg = JSON.parse(bufferdPackage.toString()) as PackageJson;
-		return findFrameworkPackages(packageStrinbg);
-	}
-	return [];
-
-};
-
-const findFrameworkPackages = (packageJson: PackageJson) => {
-	const packages = Object.keys(packageJson.dependencies);
-	return constants.FRAMEWORKS.filter(framework => packages.find(e => e.includes(framework)));
-
-};
 /**
  *
  * @export
@@ -37,21 +13,21 @@ const findFrameworkPackages = (packageJson: PackageJson) => {
  */
 export function activate(context: vscode.ExtensionContext) {
 	WebContext.initialize(context);
+	
 	/**
 	 * When activated create some needed services
 	 */
-
 	const sketchIngestor = SketchIngestorService.getInstance();
 	const frameworkFacade = FrameworkFacade.getInstance();
 	const vscodeUtils = VSCodeService.getInstance();
 	const fileUtils = FileService.getInstance();
+
 	let webViewPanel: vscode.WebviewPanel;
 	let disposables: Array<vscode.Disposable> = [];
 
-	// workplace detection
-	let defaultFramework: string;
-	const _dependencyFrameworks = defaultFrameworkSelection();
-	_dependencyFrameworks.length > 0 ? (defaultFramework = _dependencyFrameworks[0]) : constants.FRAMEWORKS.find(e => e === 'angular');
+	// in the future we could make listners to the package file
+	// to react on changes of dependencies
+	const defaultFramework: string[]= vscodeUtils.getFrameworksFromWorkspace();
 
 
 	disposables.push(vscode.commands.registerCommand('xlayers.selectFile', async (args: any) => {
@@ -78,7 +54,7 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!args.webview) {
 
 			frameworkSelection =
-				await vscodeUtils.showQuickDialog(frameworkFacade.getFrameworks(defaultFramework as constants.Frameworks), constants.SELECT_FRAMEWORK, false);
+				await vscodeUtils.showQuickDialog(frameworkFacade.getFrameworks(defaultFramework as constants.Frameworks[]), constants.SELECT_FRAMEWORK, false);
 			if (!frameworkSelection) { return; }
 		}
 
@@ -107,8 +83,6 @@ export function activate(context: vscode.ExtensionContext) {
 		visible ? vscode.commands.executeCommand(Commands.OpenDragDrop) : webViewPanel.dispose();
 	}));
 
-
-	// A list of disposables
 	disposables.forEach(item => context.subscriptions.push(item));
 }
 
