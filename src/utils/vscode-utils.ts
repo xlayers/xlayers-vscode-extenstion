@@ -7,6 +7,7 @@ import { MessageTypes } from './message-types';
 
 interface PackageJson {
     dependencies: [];
+
     devdependencies: [];
 }
 export class VSCodeService {

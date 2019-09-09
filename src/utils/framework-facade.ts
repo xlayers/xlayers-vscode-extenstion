@@ -25,7 +25,7 @@ export class FrameworkFacade {
         const frameworks = [...FRAMEWORKS];
         return prefferd.reduce((items, item) => {
             if (items.includes(item)) {
-                items.splice(items.indexOf(item), 1, `${item} (recommended)`);
+                items.splice(items.indexOf(item), 1, `${item.toString()} (recommended)` as Frameworks) ;
             }
             return items;
         }, frameworks).sort(e => e.indexOf('(recommended)')).reverse();

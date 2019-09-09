@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// in the future we could make listners to the package file
 	// to react on changes of dependencies
-	const defaultFramework: string[] = vscodeUtils.getFrameworksFromWorkspace();
+	const defaultFramework = vscodeUtils.getFrameworksFromWorkspace();
 
 
 	disposables.push(vscode.commands.registerCommand('xlayers.selectFile', async (args: any) => {
@@ -54,18 +54,17 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!args.webview) {
 
 			frameworkSelection =
-				await vscodeUtils.showQuickDialog(frameworkFacade.getFrameworks(defaultFramework as constants.Frameworks[]), constants.SELECT_FRAMEWORK, false);
+				await vscodeUtils.showQuickDialog(frameworkFacade.getFrameworks(defaultFramework), constants.SELECT_FRAMEWORK, false);
 			if (!frameworkSelection) { return; }
 		}
 
 		let incomingpath: string[] = pickedSketchFiles && pickedSketchFiles.map(file => `${workspaceDir}/${file}`) || [args.fsPath];
-		await incomingpath.forEach(async (item, _index) => {
+		incomingpath.forEach(async (item, _index) => {
 			const filePath = fileUtils.filePath(item);
 			const data = await sketchIngestor.process(item);
-
-			const files: Array<any> = frameworkFacade.generate({ type: { type: frameworkSelection, ast: data.pages[0] } });
+			const files: any = frameworkFacade.generate(frameworkSelection, data.pages[0]);
 			let randomPathNr = Math.random();
-			files.forEach((generatedFile, index) => {
+			files.forEach((generatedFile: { uri: any; value: any; }, index: number) => {
 				if (index === 0) {
 					fileUtils.mkdir(`${filePath}/xlayers-${randomPathNr}/`);
 				}
