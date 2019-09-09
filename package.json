@@ -1,5 +1,5 @@
 {
-  "name": "vscode-xlayers",
+  "name": "xlayers-vscode",
   "displayName": "xLayers",
   "description": "A VSCode plugin that lets you convert SketchApp Design Files Into ANY Framework And Library",
   "publisher": "xLayers",
@@ -8,13 +8,13 @@
     "email": "jefiozie.bosch@gmail.com"
   },
   "license": "SEE LICENSE IN LICENSE",
-  "homepage": "https://github.com/xlayers/vscode-xlayers/blob/master/README.md",
+  "homepage": "https://github.com/xlayers/xlayers-vscode-extenstion/blob/master/README.md",
   "bugs": {
-    "url": "https://github.com/xlayers/vscode-xlayers/issues"
+    "url": "https://github.com/xlayers/xlayers-vscode-extenstion/issues"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/xlayers/vscode-xlayers.git"
+    "url": "https://github.com/xlayers/xlayers-vscode-extenstion.git"
   },
   "version": "1.0.0",
   "engines": {
