@@ -6,8 +6,8 @@ import { FileService } from './file-utils';
 import { MessageTypes } from './message-types';
 
 interface PackageJson {
-	dependencies: [];
-	devdependencies: [];
+    dependencies: [];
+    devdependencies: [];
 }
 export class VSCodeService {
     private static _instance: VSCodeService;
@@ -31,26 +31,26 @@ export class VSCodeService {
             case MessageTypes.Error:
                 await window.showErrorMessage(message, '🙈').then();
                 break;
+            default:
+                break;
         }
     }
 
     private async fromDir(startPath: string, filter: string, fileArray: string[]) {
 
-        //.log('Starting from dir '+startPath+'/');
 
         if (!fs.existsSync(startPath)) {
-            console.log("no dir ", startPath);
+            console.log('no dir ', startPath);
             return;
         }
 
-        var files = fs.readdirSync(startPath).filter(e => e.indexOf('node_modules'));
-        for (var i = 0; i < files.length; i++) {
-            var filename = path.join(startPath, files[i]);
-            var stat = fs.lstatSync(filename);
+        let files = fs.readdirSync(startPath).filter(e => e.indexOf('node_modules'));
+        for (let i = 0; i < files.length; i++) {
+            let filename = path.join(startPath, files[i]);
+            let stat = fs.lstatSync(filename);
             if (stat.isDirectory()) {
-                await this.fromDir(filename, filter, fileArray); //recurse
-            }
-            else if (filename.indexOf(filter) >= 0) {
+                await this.fromDir(filename, filter, fileArray); // recurse
+            } else if (filename.indexOf(filter) >= 0) {
                 fileArray.push(filename);
             }
         }
@@ -77,12 +77,12 @@ export class VSCodeService {
             return this.findFrameworkPackages(packageStrinbg);
         }
         return [];
-    
+
     }
-    
+
     private findFrameworkPackages = (packageJson: PackageJson) => {
         const packages = Object.keys(packageJson.dependencies);
         return constants.FRAMEWORKS.filter(framework => packages.find(e => e.includes(framework)));
-    
+
     }
 }

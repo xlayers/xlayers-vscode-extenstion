@@ -13,7 +13,7 @@ import { WebContext } from './webviews/webContext';
  */
 export function activate(context: vscode.ExtensionContext) {
 	WebContext.initialize(context);
-	
+
 	/**
 	 * When activated create some needed services
 	 */
@@ -27,7 +27,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 	// in the future we could make listners to the package file
 	// to react on changes of dependencies
-	const defaultFramework: string[]= vscodeUtils.getFrameworksFromWorkspace();
+	const defaultFramework: string[] = vscodeUtils.getFrameworksFromWorkspace();
 
 
 	disposables.push(vscode.commands.registerCommand('xlayers.selectFile', async (args: any) => {
@@ -63,7 +63,7 @@ export function activate(context: vscode.ExtensionContext) {
 			const filePath = fileUtils.filePath(item);
 			const data = await sketchIngestor.process(item);
 
-			const files: Array<any> = frameworkFacade.generate(frameworkSelection, data.pages[0]);
+			const files: Array<any> = frameworkFacade.generate({ type: { type: frameworkSelection, ast: data.pages[0] } });
 			let randomPathNr = Math.random();
 			files.forEach((generatedFile, index) => {
 				if (index === 0) {
@@ -79,11 +79,13 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.executeCommand('xlayers.selectFile', uri);
 	}));
 
-	disposables.push(vscode.window.createTreeView(SketchFileProvider.provider_name, { treeDataProvider: new SketchFileProvider(vscode.workspace.rootPath as string) }).onDidChangeVisibility(({ visible }) => {
-		visible ? vscode.commands.executeCommand(Commands.OpenDragDrop) : webViewPanel.dispose();
-	}));
+	disposables.push(vscode.window.createTreeView(SketchFileProvider.provider_name,
+		{ treeDataProvider: new SketchFileProvider(vscode.workspace.rootPath as string) }).onDidChangeVisibility(({ visible }) => {
+			visible ? vscode.commands.executeCommand(Commands.OpenDragDrop) : webViewPanel.dispose();
+		}));
 
 	disposables.forEach(item => context.subscriptions.push(item));
 }
 
+// tslint:disable-next-line: no-empty
 export function deactivate() { }

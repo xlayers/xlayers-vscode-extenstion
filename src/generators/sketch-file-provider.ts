@@ -8,6 +8,7 @@ import { VSCodeService } from '../utils';
 export class SketchFileProvider implements vscode.TreeDataProvider<Sketch> {
     private _onDidChangeTreeData: vscode.EventEmitter<Sketch | undefined> = new vscode.EventEmitter<Sketch | undefined>();
     readonly onDidChangeTreeData: vscode.Event<Sketch | undefined> = this._onDidChangeTreeData.event;
+    // tslint:disable-next-line: variable-name
     static provider_name: string = 'sketchProvider';
     private readonly vsCodeUtils: VSCodeService;
     constructor(private readonly workspaceRoot: string) {

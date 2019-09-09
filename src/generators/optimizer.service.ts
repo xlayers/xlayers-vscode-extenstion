@@ -174,7 +174,11 @@ export class StyleOptimizerService {
      * @param checkingDecIndex
      * @param checkDeclarationPropertySet
      */
-    private setValuesInAst(stylesAst: StyleList[], currentIndex: number, currentDeclarationSet: Set<string>, checkingDecIndex: number, checkDeclarationPropertySet: Set<string>) {
+    private setValuesInAst(stylesAst: StyleList[],
+                           currentIndex: number,
+                           currentDeclarationSet: Set<string>,
+                           checkingDecIndex: number,
+                           checkDeclarationPropertySet: Set<string>) {
         stylesAst[currentIndex].declarations = Object.assign(Array.from(currentDeclarationSet.values()));
         stylesAst[checkingDecIndex].declarations = Object.assign(Array.from(checkDeclarationPropertySet.values()));
     }

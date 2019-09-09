@@ -24,8 +24,8 @@ const entryAsyncCheck = (entry: any): entry is { async: Function } => {
     return !!entry && typeof entry === 'object' && 'async' in entry;
 };
 
-const jszipLoadAsync = (jszip: any): jszip is { loadAsync: Function } => {
-    return !!jszip && typeof jszip === 'object' && 'loadAsync' in jszip;
+const jszipLoadAsync = (_jszip: any): _jszip is { loadAsync: Function } => {
+    return !!_jszip && typeof _jszip === 'object' && 'loadAsync' in _jszip;
 };
 
 export class SketchIngestorService {
@@ -112,8 +112,7 @@ export class SketchIngestorService {
                 ) {
                     const content = await (entry as any).async('base64');
                     const imageData = await this.buildImage(content, relativePath);
-                }
-                else if (relativePath === 'previews/preview.png') {
+                } else if (relativePath === 'previews/preview.png') {
                     // this is a preview, so add it to the previews array
                     // _data.previews.push({
                     //     source: imageData.source,
@@ -129,12 +128,10 @@ export class SketchIngestorService {
                     } catch (e) {
                         throw new Error(`Could not load page "${relativePath}"`);
                     }
-                }
-                else if (relativePath.endsWith('.pdf')) {
+                } else if (relativePath.endsWith('.pdf')) {
                     // text-previews/text-previews.pdf
                     // removed because of: https://github.com/xlayers/xlayers/issues/200
-                }
-                else {
+                } else {
                     // document.json
                     // user.json
                     // meta.json
