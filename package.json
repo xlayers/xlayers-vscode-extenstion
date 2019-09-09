@@ -1,5 +1,5 @@
 {
-  "name": "xlayers-vscode",
+  "name": "@xlayers/vscode-extension",
   "displayName": "xLayers",
   "description": "A VSCode plugin that lets you convert SketchApp Design Files Into ANY Framework And Library",
   "publisher": "xLayers",
