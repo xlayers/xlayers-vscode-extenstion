@@ -1,6 +1,6 @@
-import { WebviewBase } from "./baseWebView";
-import { Commands } from "./Commands";
-import { commands } from "vscode";
+import { WebviewBase } from './baseWebView';
+import { Commands } from './Commands';
+import { commands } from 'vscode';
 
 export class DragDropView extends WebviewBase {
     filename: string = 'drag-drop.html';

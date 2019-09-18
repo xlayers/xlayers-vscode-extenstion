@@ -1,8 +1,8 @@
 import * as fs from 'fs';
 import * as path from 'path';
-import { commands, Disposable, Uri, ViewColumn, Webview, WebviewPanel, window, workspace } from "vscode";
-import { Commands } from "./Commands";
-import { WebContext } from "./webContext";
+import { commands, Disposable, Uri, ViewColumn, Webview, WebviewPanel, window, workspace } from 'vscode';
+import { Commands } from './Commands';
+import { WebContext } from './webContext';
 
 export abstract class WebviewBase implements Disposable {
     private _html: string | undefined;
@@ -47,12 +47,11 @@ export abstract class WebviewBase implements Disposable {
             this._disposablePanel = Disposable.from(
                 this._panel,
                 (this._panel as WebviewPanel).onDidDispose(this.onPanelDisposed, this),
-                (this._panel.webview as Webview).onDidReceiveMessage(this.onMessageReceivedCore, this),
+                (this._panel.webview as Webview).onDidReceiveMessage(this.onMessageReceivedCore, this)
             );
 
             this._panel.webview.html = html;
-        }
-        else {
+        } else {
             // Reset the html to get the webview to reload
             this._panel.webview.html = '';
             this._panel.webview.html = html;
@@ -90,14 +89,12 @@ export abstract class WebviewBase implements Disposable {
                 fs.readFile(filename, 'utf8', (err, data) => {
                     if (err) {
                         reject(err);
-                    }
-                    else {
+                    } else {
                         resolve(data);
                     }
                 });
             });
-        }
-        else {
+        } else {
             if (this._html !== undefined) { return this._html; }
 
             const doc = await workspace.openTextDocument(filename);

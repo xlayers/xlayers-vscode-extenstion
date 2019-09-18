@@ -31,8 +31,6 @@ export class SketchStyleParserService {
     }
     version: SupportScore = SupportScore.LATEST;
 
-    constructor() { }
-
     public visit(sketch: any) {
         const supp = this.checkSupport(sketch);
 
@@ -125,6 +123,7 @@ export class SketchStyleParserService {
             //     obj.archivedAttributedString._archive
             // );
             if (archive) {
+                // tslint:disable-next-line: switch-default
                 switch (archive.$key) {
                     case 'ascii':
                         return {
@@ -201,13 +200,13 @@ export class SketchStyleParserService {
             case 'shapePath':
                 return parent._class !== 'shapeGroup'
                     ? this.transformShapeSolid(layer, {
-                        ...this.transformFills(layer.style),
+                        ...this.transformFills(layer.style)
                     })
                     : {};
 
             case 'shapeGroup':
                 return this.transformShapeGroup(layer, {
-                    ...this.transformFills(layer.style),
+                    ...this.transformFills(layer.style)
                 });
 
             case 'triangle':

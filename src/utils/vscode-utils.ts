@@ -1,8 +1,15 @@
-import { window, workspace } from 'vscode';
-import { MessageTypes } from './message-types';
 import * as fs from 'fs';
 import * as path from 'path';
+import { window, workspace } from 'vscode';
+import * as constants from '../constants';
+import { FileService } from './file-utils';
+import { MessageTypes } from './message-types';
 
+interface PackageJson {
+    dependencies: [];
+
+    devdependencies: [];
+}
 export class VSCodeService {
     private static _instance: VSCodeService;
 
@@ -25,30 +32,30 @@ export class VSCodeService {
             case MessageTypes.Error:
                 await window.showErrorMessage(message, '🙈').then();
                 break;
+            default:
+                break;
         }
     }
 
     private async fromDir(startPath: string, filter: string, fileArray: string[]) {
 
-        //.log('Starting from dir '+startPath+'/');
 
         if (!fs.existsSync(startPath)) {
-            console.log("no dir ", startPath);
+            console.log('no dir ', startPath);
             return;
         }
 
-        var files = fs.readdirSync(startPath).filter(e => e.indexOf('node_modules'))
-        for (var i = 0; i < files.length; i++) {
-            var filename = path.join(startPath, files[i]);
-            var stat = fs.lstatSync(filename);
+        let files = fs.readdirSync(startPath).filter(e => e.indexOf('node_modules'));
+        for (let i = 0; i < files.length; i++) {
+            let filename = path.join(startPath, files[i]);
+            let stat = fs.lstatSync(filename);
             if (stat.isDirectory()) {
-                await this.fromDir(filename, filter, fileArray); //recurse
-            }
-            else if (filename.indexOf(filter) >= 0) {
+                await this.fromDir(filename, filter, fileArray); // recurse
+            } else if (filename.indexOf(filter) >= 0) {
                 fileArray.push(filename);
-            };
-        };
-    };
+            }
+        }
+    }
 
     async getFilesByPattern(folderPath: string, pattern: string = '.sketch') {
         let fileArray: string[] = [];
@@ -58,5 +65,25 @@ export class VSCodeService {
 
     async showQuickDialog(items: string[], placeHolder: string, multiSelection: boolean): Promise<any> {
         return await window.showQuickPick(items, { placeHolder, matchOnDetail: true, canPickMany: multiSelection });
+    }
+
+    public getFrameworksFromWorkspace = () => {
+        const fileUtils = FileService.getInstance();
+        const workspacePath = workspace.workspaceFolders && workspace.workspaceFolders[0];
+        const packagePath = `${workspacePath!.uri.fsPath}/package.json`;
+        const packageExist = fileUtils.fileExists(packagePath);
+        if (packageExist) {
+            const bufferdPackage = fileUtils.readFile(packagePath);
+            const packageStrinbg = JSON.parse(bufferdPackage.toString()) as PackageJson;
+            return this.findFrameworkPackages(packageStrinbg);
+        }
+        return [];
+
+    }
+
+    private findFrameworkPackages = (packageJson: PackageJson) => {
+        const packages = Object.keys(packageJson.dependencies);
+        return constants.FRAMEWORKS.filter(framework => packages.find(e => e.includes(framework)));
+
     }
 }

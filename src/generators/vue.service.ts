@@ -1,4 +1,4 @@
-import { SharedCodegen, Template } from "./shared.service";
+import { SharedCodegen, Template } from './shared.service';
 
 export class VueCodeGenService {
     private static _instance: VueCodeGenService;

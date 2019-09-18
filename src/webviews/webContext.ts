@@ -1,4 +1,4 @@
-import { ExtensionContext } from "vscode";
+import { ExtensionContext } from 'vscode';
 import { DragDropView } from './DragDropView';
 
 export class WebContext {

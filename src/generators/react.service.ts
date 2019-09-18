@@ -1,4 +1,4 @@
-import { SharedCodegen, Template } from "./shared.service";
+import { SharedCodegen, Template } from './shared.service';
 
 export class ReactCodeGenService {
   private static _instance: ReactCodeGenService;

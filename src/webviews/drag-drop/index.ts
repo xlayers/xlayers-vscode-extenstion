@@ -38,18 +38,18 @@ export class DragDropPage {
     }
 
     private setupDragElement(dragElement: HTMLElement) {
-        dragElement.addEventListener("dragover", (event: {
+        dragElement.addEventListener('dragover', (event: {
             preventDefault: () => void;
         }) => {
             event.preventDefault();
             return false;
         }, false);
 
-        dragElement.addEventListener("drop", event => {
+        dragElement.addEventListener('drop', event => {
             event.preventDefault();
             const files = event.dataTransfer && Array.from(event.dataTransfer.files);
             this.sketchFiles = files && files.filter(file => file.name.endsWith('.sketch'));
-            (dragElement as HTMLElement).style.display = "none";
+            (dragElement as HTMLElement).style.display = 'none';
 
             return false;
         }, false);

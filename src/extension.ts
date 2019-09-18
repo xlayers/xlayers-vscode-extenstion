@@ -6,30 +6,6 @@ import { FileService, FrameworkFacade, MessageTypes, VSCodeService } from './uti
 import { Commands } from './webviews/Commands';
 import { WebContext } from './webviews/webContext';
 
-interface PackageJson {
-	dependencies: [];
-	devdependencies: [];
-}
-
-const defaultFrameworkSelection = () => {
-	const fileUtils = FileService.getInstance();
-	const workspacePath = vscode.workspace.workspaceFolders && vscode.workspace.workspaceFolders[0];
-	const packagePath = `${workspacePath!.uri.fsPath}/package.json`;
-	const packageExist = fileUtils.fileExists(packagePath);
-	if (packageExist) {
-		const bufferdPackage = fileUtils.readFile(packagePath);
-		const packageStrinbg = JSON.parse(bufferdPackage.toString()) as PackageJson;
-		return findFrameworkPackages(packageStrinbg);
-	}
-	return [];
-
-};
-
-const findFrameworkPackages = (packageJson: PackageJson) => {
-	const packages = Object.keys(packageJson.dependencies);
-	return constants.FRAMEWORKS.filter(framework => packages.find(e => e.includes(framework)));
-
-};
 /**
  *
  * @export
@@ -37,21 +13,21 @@ const findFrameworkPackages = (packageJson: PackageJson) => {
  */
 export function activate(context: vscode.ExtensionContext) {
 	WebContext.initialize(context);
+
 	/**
 	 * When activated create some needed services
 	 */
-
 	const sketchIngestor = SketchIngestorService.getInstance();
 	const frameworkFacade = FrameworkFacade.getInstance();
 	const vscodeUtils = VSCodeService.getInstance();
 	const fileUtils = FileService.getInstance();
+
 	let webViewPanel: vscode.WebviewPanel;
 	let disposables: Array<vscode.Disposable> = [];
 
-	// workplace detection
-	let defaultFramework: string;
-	const _dependencyFrameworks = defaultFrameworkSelection();
-	_dependencyFrameworks.length > 0 ? (defaultFramework = _dependencyFrameworks[0]) : constants.FRAMEWORKS.find(e => e === 'angular');
+	// in the future we could make listners to the package file
+	// to react on changes of dependencies
+	const defaultFramework = vscodeUtils.getFrameworksFromWorkspace();
 
 
 	disposables.push(vscode.commands.registerCommand('xlayers.selectFile', async (args: any) => {
@@ -78,18 +54,17 @@ export function activate(context: vscode.ExtensionContext) {
 		if (!args.webview) {
 
 			frameworkSelection =
-				await vscodeUtils.showQuickDialog(frameworkFacade.getFrameworks(defaultFramework as constants.Frameworks), constants.SELECT_FRAMEWORK, false);
+				await vscodeUtils.showQuickDialog(frameworkFacade.getFrameworks(defaultFramework), constants.SELECT_FRAMEWORK, false);
 			if (!frameworkSelection) { return; }
 		}
 
 		let incomingpath: string[] = pickedSketchFiles && pickedSketchFiles.map(file => `${workspaceDir}/${file}`) || [args.fsPath];
-		await incomingpath.forEach(async (item, _index) => {
+		incomingpath.forEach(async (item, _index) => {
 			const filePath = fileUtils.filePath(item);
 			const data = await sketchIngestor.process(item);
-
-			const files: Array<any> = frameworkFacade.generate(frameworkSelection, data.pages[0]);
+			const files: any = frameworkFacade.generate(frameworkSelection, data.pages[0]);
 			let randomPathNr = Math.random();
-			files.forEach((generatedFile, index) => {
+			files.forEach((generatedFile: { uri: any; value: any; }, index: number) => {
 				if (index === 0) {
 					fileUtils.mkdir(`${filePath}/xlayers-${randomPathNr}/`);
 				}
@@ -103,13 +78,13 @@ export function activate(context: vscode.ExtensionContext) {
 		vscode.commands.executeCommand('xlayers.selectFile', uri);
 	}));
 
-	disposables.push(vscode.window.createTreeView(SketchFileProvider.provider_name, { treeDataProvider: new SketchFileProvider(vscode.workspace.rootPath as string) }).onDidChangeVisibility(({ visible }) => {
-		visible ? vscode.commands.executeCommand(Commands.OpenDragDrop) : webViewPanel.dispose();
-	}));
+	disposables.push(vscode.window.createTreeView(SketchFileProvider.provider_name,
+		{ treeDataProvider: new SketchFileProvider(vscode.workspace.rootPath as string) }).onDidChangeVisibility(({ visible }) => {
+			visible ? vscode.commands.executeCommand(Commands.OpenDragDrop) : webViewPanel.dispose();
+		}));
 
-
-	// A list of disposables
 	disposables.forEach(item => context.subscriptions.push(item));
 }
 
+// tslint:disable-next-line: no-empty
 export function deactivate() { }

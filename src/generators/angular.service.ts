@@ -1,4 +1,4 @@
-import { SharedCodegen, Template } from "./shared.service";
+import { SharedCodegen, Template } from './shared.service';
 
 export class AngularCodeGenService {
   private static _instance: AngularCodeGenService;
@@ -16,7 +16,7 @@ export class AngularCodeGenService {
   }
 
   generate(ast: any): Array<any> {
-    this.sharedCodegen.generateCssClassNames(ast);  
+    this.sharedCodegen.generateCssClassNames(ast);
     return [
       {
         uri: 'README.md',
@@ -67,9 +67,9 @@ export class AngularCodeGenService {
     const codeBlock = '```';
     return `
   ## How to use the Xlayers Angular module
-  
+
   1. Download and extract the exported module into your workspace,
-  
+
   2. Option #1: Import eagerly the XlayersModule into your AppModule or other module.
   ${codeBlock}
   import { XlayersModule } from './xlayers/xlayers.module';
@@ -81,7 +81,7 @@ export class AngularCodeGenService {
   })
   export class AppModule {}
   ${codeBlock}
-  
+
   2. Option #2: Import lazily the XlayersModule routing configuration into your AppModule or other module.
   Make sure your router is setup properly in order to use this option (see: https://angular.io/guide/lazy-loading-ngmodules).
   ${codeBlock}
@@ -94,7 +94,7 @@ export class AngularCodeGenService {
   })
   export class AppModule {}
   ${codeBlock}
-  
+
   3. Enjoy.
   `;
   }
@@ -106,7 +106,7 @@ export class AngularCodeGenService {
   import { NgModule } from '@angular/core';
   import { CommonModule } from '@angular/common';
   import { XlayersComponent } from './xlayers.component';
-  
+
   @NgModule({
     declarations: [
       XlayersComponent
@@ -129,12 +129,12 @@ export class AngularCodeGenService {
       `
   import { NgModule } from '@angular/core';
   import { RouterModule, Routes } from '@angular/router';
-  
+
   const xlayersRoutes: Routes = [{
     path: 'xlayers',
     loadChildren: 'app/xlayers/xlayers.module#XlayersModule'
   }];
-  
+
   @NgModule({
     imports: [ RouterModule.forChild(xlayersRoutes) ],
     exports: [ RouterModule ]
@@ -149,19 +149,19 @@ export class AngularCodeGenService {
       '' +
       `
   import { Component, OnInit } from '@angular/core';
-  
+
   @Component({
     selector: 'app-xlayers',
     templateUrl: './xlayers.component.html',
     styleUrls: ['./xlayers.component.css']
   })
   export class XlayersComponent implements OnInit {
-  
+
     constructor() { }
-  
+
     ngOnInit() {
     }
-  
+
   }
   `
     );
@@ -176,24 +176,24 @@ export class AngularCodeGenService {
       `
   import { async, ComponentFixture, TestBed } from '@angular/core/testing';
   import { XlayersComponent } from './xlayers.component';
-  
+
   describe('XlayersComponent', () => {
     let component: XlayersComponent;
     let fixture: ComponentFixture<XlayersComponent>;
-  
+
     beforeEach(async(() => {
       TestBed.configureTestingModule({
         declarations: [ XlayersComponent ]
       })
       .compileComponents();
     }));
-  
+
     beforeEach(() => {
       fixture = TestBed.createComponent(XlayersComponent);
       component = fixture.componentInstance;
       fixture.detectChanges();
     });
-  
+
     it('should create', () => {
       expect(component).toBeTruthy();
     });

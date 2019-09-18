@@ -1,4 +1,4 @@
-import { StyleOptimizerService } from "./optimizer.service";
+import { StyleOptimizerService } from './optimizer.service';
 
 export enum Template {
     HTML,
