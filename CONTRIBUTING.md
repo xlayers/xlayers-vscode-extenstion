@@ -197,6 +197,8 @@ The following is the list of supported scopes (there might be more added in the 
 - **webview**
 - **codegen**
 - **parser**
+- **vscode**
+- **vscode-plugin**
 
 There are currently a few exceptions to the "use package name" rule:
 
