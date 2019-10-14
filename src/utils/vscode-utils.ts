@@ -70,12 +70,15 @@ export class VSCodeService {
     public getFrameworksFromWorkspace = () => {
         const fileUtils = FileService.getInstance();
         const workspacePath = workspace.workspaceFolders && workspace.workspaceFolders[0];
-        const packagePath = `${workspacePath!.uri.fsPath}/package.json`;
-        const packageExist = fileUtils.fileExists(packagePath);
-        if (packageExist) {
-            const bufferdPackage = fileUtils.readFile(packagePath);
-            const packageStrinbg = JSON.parse(bufferdPackage.toString()) as PackageJson;
-            return this.findFrameworkPackages(packageStrinbg);
+        if (workspacePath) {
+
+            const packagePath = `${workspacePath!.uri.fsPath}/package.json`;
+            const packageExist = fileUtils.fileExists(packagePath);
+            if (packageExist) {
+                const bufferdPackage = fileUtils.readFile(packagePath);
+                const packageStrinbg = JSON.parse(bufferdPackage.toString()) as PackageJson;
+                return this.findFrameworkPackages(packageStrinbg);
+            }
         }
         return [];
 

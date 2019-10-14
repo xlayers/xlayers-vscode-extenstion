@@ -1,4 +1,4 @@
-
+import { vscode } from '../web-constant';
 
 export class DragDropPage {
     public sketchFiles: any;
@@ -26,7 +26,13 @@ export class DragDropPage {
         const frameWorkSelection = (framework: string) => {
 
             if (this._xlayersElementPlaceHolder) {
-                // TODO: setup element for seletcion
+                vscode.postMessage({
+                    command: 'xlayers.fileSelected', data: {
+
+                        framework,
+                        fsPath: this.sketchFiles[0].path
+                    }
+                });
             }
         };
 
@@ -49,7 +55,10 @@ export class DragDropPage {
             event.preventDefault();
             const files = event.dataTransfer && Array.from(event.dataTransfer.files);
             this.sketchFiles = files && files.filter(file => file.name.endsWith('.sketch'));
-            (dragElement as HTMLElement).style.display = 'none';
+            if (this.sketchFiles.length > 0) {
+
+                (dragElement as HTMLElement).style.display = 'none';
+            }
 
             return false;
         }, false);
