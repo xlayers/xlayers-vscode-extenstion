@@ -95,6 +95,7 @@
     "@types/glob": "^7.1.1",
     "@types/mocha": "^2.2.42",
     "@types/node": "^10.12.21",
+    "@types/sinon": "^7.5.0",
     "@types/vscode": "1.36.0",
     "conventional-changelog-cli": "^2.0.23",
     "copy-webpack-plugin": "^5.0.4",
