@@ -39,3 +39,4 @@ tls.*
 # System Files
 .DS_Store
 Thumbs.db
+.vscode-test
