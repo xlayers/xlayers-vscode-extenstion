@@ -11,18 +11,6 @@ export class DragDropPage {
         this._frameWorkSelectionElement = document.getElementById('frameworks') as HTMLElement;
         const dragElement = document.getElementById('drag-file') as HTMLElement;
 
-        // Basic event listner that will receieve messages from the VSCode post api.
-        window.addEventListener('message', (event: MessageEvent & { data: { command: string } }) => {
-            const { command } = event.data;
-            switch (command) {
-                case 'generating':
-                    console.error('here');
-                    break;
-                default:
-                    break;
-            }
-        });
-
         const frameWorkSelection = (framework: string) => {
 
             if (this._xlayersElementPlaceHolder) {
