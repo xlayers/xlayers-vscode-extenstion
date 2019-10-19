@@ -3,12 +3,12 @@ import { vscode } from '../web-constant';
 export class DragDropPage {
     public sketchFiles: any;
     private _xlayersElementPlaceHolder: HTMLElement;
-    private _frameWorkSelectionElement: HTMLElement;
+    private _frameWorkSelectionElements: NodeListOf<HTMLHeadingElement>;
 
     constructor() {
         // default elements we need for the UI
         this._xlayersElementPlaceHolder = document.querySelector('#xlayers') as HTMLElement;
-        this._frameWorkSelectionElement = document.getElementById('frameworks') as HTMLElement;
+        this._frameWorkSelectionElements = document.querySelectorAll('.card');
         const dragElement = document.getElementById('drag-file') as HTMLElement;
 
         const frameWorkSelection = (framework: string) => {
@@ -24,9 +24,9 @@ export class DragDropPage {
             }
         };
 
-        this._frameWorkSelectionElement.addEventListener('click', (event) => {
-            frameWorkSelection((event.target as HTMLElement)!.id);
-        });
+        this._frameWorkSelectionElements.forEach(framework => framework.addEventListener('click', (event) => {
+            frameWorkSelection(framework!.id);
+        }));
 
         this.setupDragElement(dragElement);
     }

@@ -23,6 +23,42 @@
         height: 100%;
         width: 100%;
       }
+
+      .cards {
+        display: flex;
+        align-self: center;
+        flex-wrap: wrap;
+        list-style: none;
+        margin: 0;
+        padding: 0;
+      }
+
+      .cards_item {
+        display: flex;
+        padding: 1rem;
+      }
+      .card {
+        background-color: white;
+        border-radius: 0.25rem;
+        box-shadow: 0 20px 40px -14px rgba(0, 0, 0, 0.25);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+      }
+
+      .card_content {
+        padding: 1rem;
+        background: linear-gradient(to bottom left, #ef8d9c 40%, #ffc39e 100%);
+      }
+
+      .card_title {
+        color: #ffffff;
+        font-size: 1.1rem;
+        font-weight: 700;
+        letter-spacing: 1px;
+        text-transform: capitalize;
+        margin: 0px;
+      }
     </style>
   </head>
   <body>
@@ -32,9 +68,38 @@
     </div>
 
     <div id="frameworks">
-      <h1 id="angular">Angular</h1>
-      <h1 id="vue">Vue</h1>
-      <h1 id="react">React</h1>
+      <ul class="cards">
+        <li class="cards_item">
+          <div  id="angular" class="card">
+            <div class="card_image">
+              <img src="{{root}}/images/icon-128x128.png" />
+            </div>
+            <div class="card_content">
+              <h2 class="card_title">Angular</h2>
+            </div>
+          </div>
+        </li>
+        <li class="cards_item">
+          <div id="vue" class="card">
+            <div class="card_image">
+              <img src="{{root}}/images/icon-128x128.png" />
+            </div>
+            <div class="card_content">
+              <h2 class="card_title">Vue</h2>
+            </div>
+          </div>
+        </li>
+        <li class="cards_item">
+          <div  id="react" class="card">
+            <div class="card_image">
+              <img src="{{root}}/images/icon-128x128.png" />
+            </div>
+            <div class="card_content">
+              <h2 class="card_title">React</h2>
+            </div>
+          </div>
+        </li>
+      </ul>
     </div>
     <div id="xlayers" style="display: none"></div>
   </body>
