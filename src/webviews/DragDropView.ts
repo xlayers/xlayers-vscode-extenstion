@@ -5,7 +5,7 @@ import { commands } from 'vscode';
 export class DragDropView extends WebviewBase {
     filename: string = 'drag-drop.html';
     id: string = 'xlayers.drapdrop';
-    title: string = 'Drop your Sketch File here';
+    title: string = 'Xlayers - Editor';
 
 
     constructor() {

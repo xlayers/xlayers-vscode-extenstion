@@ -70,6 +70,7 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 				fileUtils.writeFile(`${filePath}/xlayers-${randomPathNr}/${generatedFile.uri}`, generatedFile.value);
 			});
+			vscodeUtils.showMessage('Generation completed, check out your files!🎉', MessageTypes.Info);
 		});
 	}));
 
