@@ -18,7 +18,7 @@
   },
   "version": "1.0.0",
   "engines": {
-    "vscode": "^1.32.0"
+    "vscode": "^1.39.0"
   },
   "preview": false,
   "categories": [
@@ -96,7 +96,7 @@
     "@types/mocha": "^2.2.42",
     "@types/node": "^10.12.21",
     "@types/sinon": "^7.5.0",
-    "@types/vscode": "1.36.0",
+    "@types/vscode": "1.39.0",
     "conventional-changelog-cli": "^2.0.23",
     "copy-webpack-plugin": "^5.0.4",
     "filemanager-webpack-plugin": "^2.0.5",
