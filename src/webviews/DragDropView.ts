@@ -15,7 +15,7 @@ export class DragDropView extends WebviewBase {
     protected onMessageReceived(e: { command: string, data: any }) {
         switch (e.command) {
             case 'xlayers.fileSelected':
-                commands.executeCommand(Commands.OpenViewer, { fsPath: e.data.fsPath, webview: true, framework: e.data.framework });
+                commands.executeCommand(Commands.FileSelect, { fsPath: e.data.fsPath, webview: true, framework: e.data.framework });
                 this.activePanel().dispose();
                 break;
             default:

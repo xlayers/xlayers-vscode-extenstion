@@ -1,2 +1,2 @@
-declare const acquireVsCodeApi: () => void;
+declare const acquireVsCodeApi: () => any;
 export const vscode = acquireVsCodeApi();
