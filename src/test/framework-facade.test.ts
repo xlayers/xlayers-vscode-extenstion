@@ -11,6 +11,6 @@ suite('Framework Facade Tests', function () {
 
     test('should have multiple frameworks', function () {
         const frameworkFaced = FrameworkFacade.getInstance();
-        assert.deepEqual(frameworkFaced.getFrameworks(), ['angular', 'vue', 'react']);
+        assert.deepEqual(frameworkFaced.getFrameworks(), ['react', 'vue', 'angular']);
     });
 });

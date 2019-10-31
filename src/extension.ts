@@ -55,6 +55,7 @@ export function activate(context: vscode.ExtensionContext) {
 
 			frameworkSelection =
 				await vscodeUtils.showQuickDialog(frameworkFacade.getFrameworks(defaultFramework), constants.SELECT_FRAMEWORK, false);
+			frameworkSelection = frameworkSelection.match(/(?<!\()\b\w+\b(?![\)])/)[0];
 			if (!frameworkSelection) { return; }
 		}
 
@@ -70,6 +71,7 @@ export function activate(context: vscode.ExtensionContext) {
 				}
 				fileUtils.writeFile(`${filePath}/xlayers-${randomPathNr}/${generatedFile.uri}`, generatedFile.value);
 			});
+			vscodeUtils.showMessage('Generation completed, check out your files!🎉', MessageTypes.Info);
 		});
 	}));
 
