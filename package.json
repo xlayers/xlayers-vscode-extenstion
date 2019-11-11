@@ -74,7 +74,7 @@
     }
   },
   "scripts": {
-    "webpack": "webpack --mode development",
+    "webpack": "webpack --mode production",
     "webpack-dev": "webpack --mode development --watch",
     "test-compile": "tsc -p test.tsconfig.json",
     "run-test": "node ./dist/test/runTests.js",
